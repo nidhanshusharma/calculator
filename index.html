@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+@font-face{
+	font-family: 'Quicksand';
+	src: url('fonts/Quicksand-Regular.ttf');
+}
+
+        body {
+            background-color: rgba(33, 53, 74, 1);
+		font-family: "Quicksand", calibri;
+        }
+
+        .buttons-light {
+            height: 100%;
+            width: 20%;
+            background-color: rgba(69, 86, 108, 1);
+            font-size: 36px;
+            float: left;
+            color: rgba(120, 130, 145, 1);
+            border: 0px solid #717171;
+            transition: 0.1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+font-family: "Quicksand", calibri;
+        }
+
+          button{
+              outline: none;
+          }
+
+        .buttons-light:first-child {
+            border-top-left-radius: 11vh;
+            border-bottom-left-radius: 11vh;
+        }
+
+        .buttons-light:nth-child(4) {
+            border-radius: 11vh;
+            box-shadow: 3px 3px 20px black;
+            background-color: #ffc020;
+            color: rgba(38, 52, 75, 1);
+            height: 98%;
+            width: 11vh;
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            z-index: 5;
+        }
+
+        .buttons-light:last-child {
+            border-top-right-radius: 11vh;
+            border-bottom-right-radius: 11vh;
+        }
+
+        .buttons-dark {
+            height: 100%;
+            width: 33.33%;
+            background-color: rgba(33, 53, 74, 1);
+            font-size: 40px;
+            float: left;
+            color: rgba(120, 130, 145, 1);
+            border: 0px solid #717171;
+            transition: 0.1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+font-family: "Quicksand", calibri;
+        }
+
+        input:focus {
+            outline: 0px solid red;
+        }
+
+        .buttons-container {
+            border: 0px solid red;
+            position: relative;
+            height: 13vh;
+            width: 100%;
+            margin: 0px;
+        }
+
+        .buttons-container-first {
+            height: 11vh;
+            padding: 0px 20px;
+            border: 0px solid red;
+            position: relative;
+            width: 100%;
+            margin-bottom: 1vh;
+            box-sizing: border-box;
+        }
+
+        #answer {
+            height: 100%;
+            width: 100%;
+            border: 0px solid white;
+            font-size: 50px;
+            padding-right: 12%;
+            padding-left: 5%;
+            background-color: #ffc020;
+            color: rgba(38, 52, 75, 1);
+            text-align: center;
+            cursor: text;
+            box-sizing: border-box;
+		overflow: auto;
+font-family: "Quicksand", calibri;
+        }
+
+        .buttons-light:active {
+            transform: scale(0.8);
+            box-shadow: 2px 2px 3px black;
+        }
+
+.buttons-dark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: #000;
+            height: 100px;
+            width: 100px;
+            border-radius: 100px;
+            z-index: 1;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.25s ease-in-out;
+            opacity: 0;
+        }
+          .buttons-dark:active:after {
+              opacity: 0.3;
+              transform: translate(-50%, -50%) scale(2);
+        }
+
+        .buttons-light:nth-child(4):active {
+            transform: translate(-50%, 0%) scale(0.8);
+            box-shadow: 2px 2px 10px black;
+        }
+
+        .buttons-light:nth-child(3):active {
+            transform: scale(1);
+            box-shadow: 0px 0px 0px black;
+            pointer-events: none;
+        }
+
+        #input-div {
+            height: 34vh;
+            width: 100%;
+            position: relative;
+            overflow: auto;
+            margin-bottom: 2vh;
+            z-index: 10;
+            box-shadow: 1px 1px 20px black;
+        }
+
+        #input-div #c {
+            position: absolute;
+            top: 50%;
+            right: 2%;
+            transform: translate(0%, -50%);
+            height: auto;
+            width: auto;
+padding: 6px 15px;
+            background-color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        #input-div #warning {
+            position: absolute;
+            bottom: 0%;
+            left: 5%;
+            font-size: 16px;
+            color: darkred;
+        }
+
+        @media only screen and (min-width:768px) {
+            body {
+                width: 80%;
+                margin: 0 auto;
+            }
+            #input-div {
+                height: 32vh;
+            }
+            .buttons-container {
+                width: 80%;
+                margin: 0 auto;
+            }
+            .buttons-container-first {
+                width: 80%;
+                margin: 0 auto 2vh;
+                padding: 0% 0%;
+            }
+            .buttons-light,
+            .buttons-dark {
+                font-size: 55px;
+            }
+            #answer {
+                font-size: 100px;
+            }
+		.buttons-dark:active {
+            		transform: scale(0.95);
+            		box-shadow: 2px 2px 10px black;
+       	 	}
+.buttons-light:after, .buttons-dark:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: #000;
+            height: 100px;
+            width: 100px;
+            border-radius: 100px;
+            z-index: 1;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.25s ease-in-out;
+            opacity: 0;
+        }
+          .buttons-light:active:after, .buttons-dark:active:after {
+              opacity: 0.3;
+              transform: translate(-50%, -50%) scale(2);
+        }
+        }
+
+        @media only screen and (orientation: landscape) and (max-width:768px) {
+            body {
+                width: 80%;
+                margin: 0 auto;
+            }
+            #input-div {
+                height: 32vh;
+            }
+            .buttons-container {
+                width: 80%;
+                margin: 0 auto;
+            }
+            .buttons-container-first {
+                width: 80%;
+                margin: 0 auto 2vh;
+                padding: 0% 0%;
+            }
+            .buttons-light,
+            .buttons-dark {
+                font-size: 30px;
+            }
+            #answer {
+                font-size: 50px;
+            }
+        }
+      </style>
+</head>
+<body>
+<form name="myform">
+    <div id="input-div">
+        <input type="text" id="answer" name="answer" readonly>
+        <span id="c" onClick="buttonclearall()">&times;</span>
+        <p id="warning"></p>
+    </div>
+    <div class="buttons-container-first">
+        <button type="button" class="buttons-light" name="divide" onClick="addSign('/')">&divide;</button>
+        <button type="button" class="buttons-light" name="subtract" onClick="addSign('-')">-</button>
+        <div class="buttons-light"></div>
+        <button type="button" class="buttons-light" name="equalTo" onClick="result()">=</button>
+        <button type="button" class="buttons-light" name="add" onClick="addSign('+')">+</button>
+        <button type="button" class="buttons-light" name="multiply" onClick="addSign('*')">&times;</button>
+    </div>
+    <div class="buttons-container">
+        <button type="button" class="buttons-dark" name="one" onClick="setNumerics(this)">1</button>
+        <button type="button" class="buttons-dark" name="two" onClick="setNumerics(this)">2</button>
+        <button type="button" class="buttons-dark" name="three" onClick="setNumerics(this)">3</button>
+    </div>
+    <div class="buttons-container">
+        <button type="button" class="buttons-dark" name="four" onClick="setNumerics(this)">4</button>
+        <button type="button" class="buttons-dark" name="five" onClick="setNumerics(this)">5</button>
+        <button type="button" class="buttons-dark" name="six" onClick="setNumerics(this)">6</button>
+    </div>
+    <div class="buttons-container">
+        <button type="button" class="buttons-dark" name="seven" onClick="setNumerics(this)">7</button>
+        <button type="button" class="buttons-dark" name="eight" onClick="setNumerics(this)">8</button>
+        <button type="button" class="buttons-dark" name="nine" onClick="setNumerics(this)">9</button>
+    </div>
+    <div class="buttons-container">
+        <button type="button" class="buttons-dark" name="zero" onClick="setNumerics(this)">.</button>
+        <button type="button" class="buttons-dark" name="decimal" onClick="setNumerics(this)">0</button>
+        <button type="button" class="buttons-dark" onmousedown="swiftBackspace()" onmouseup="stopSwiftBackspace()">&#8653;</button>
+    </div>
+</form>
+</body>
+<script>
+       var clearBtn = document.getElementById("c");
+       var answerField = document.myform.answer;
+       var warningText = document.getElementById("warning");
+       var warning = "Error: Can not enter more than 20 Characters";
+       function setNumerics(el){
+           if (answerField.value != null) {
+                clearBtn.style.opacity = "1";
+                clearBtn.style.cursor = "pointer";
+            }
+            if (answerField.value.length >= 8) {
+                answerField.style.fontSize = "35px";
+            }
+            if (answerField.value.length > 20) {
+                warningText.innerHTML = warning;
+            }
+            if (answerField.value.length <= 20) {
+                warningText.innerHTML = "";
+                answerField.value += el.innerHTML;
+            }
+       }
+
+        function buttonclearall(){
+            if (answerField.value != "") {
+                answerField.value = "";
+                clearBtn.style.opacity = "0.3";
+                clearBtn.style.cursor = "default";
+                answerField.style.fontSize = "50px";
+		warningText.innerHTML = "";
+            }
+        }
+
+       var timer = null;
+       var isdown = false;
+
+       function swiftBackspace() {
+           clearTimeout(timer);
+           isdown = true;
+           setTimeout(function(){
+               if(isdown){
+               rem();
+              }
+           }, 300);
+           answerField.value = answerField.value.substring(0, answerField.value.length - 1);
+           if (answerField.value == "") {
+                clearBtn.style.opacity = "0.3";
+                clearBtn.style.cursor = "default";
+            }
+            if (answerField.value.length <= 8) {
+                answerField.style.fontSize = "50px";
+            }
+            if (answerField.value.length > 20) {
+                warningText.innerHTML = warning;
+            }
+            if (answerField.value.length <= 20) {
+                warningText.innerHTML = "";
+            }
+        }
+
+       function rem(){
+           timer = setTimeout(function(){
+           if(answerField.value.length != 0){
+               answerField.value = answerField.value.substring(0, answerField.value.length - 1);
+               rem();
+           }
+           else{
+                clearTimeout(timer);
+           }
+            }, 100);
+       }
+
+       function stopSwiftBackspace() {
+           isdown = false;
+            clearTimeout(timer);
+        }
+
+        function addSign(type) {
+            if(answerField.value.substring(answerField.value.length-1, answerField.value.length) != "+" && answerField.value.substring(answerField.value.length-1, answerField.value.length) != "-" && answerField.value.substring(answerField.value.length-1, answerField.value.length) != "/" && answerField.value.substring(answerField.value.length-1, answerField.value.length) != "*"){
+                answerField.value += type;
+            }
+            if (answerField.value != "") {
+                clearBtn.style.opacity = "1";
+                clearBtn.style.cursor = "pointer";
+            }
+            if (answerField.value.length >= 8) {
+                answerField.style.fontSize = "35px";
+            }
+            if (answerField.value.length > 20) {
+                warningText.innerHTML = warning;
+            }
+            if (answerField.value.length <= 20) {
+                warningText.innerHTML = "";
+            }
+        }
+
+        function result() {
+            answerField.value = eval(answerField.value);
+            if (answerField.value != "") {
+                clearBtn.style.opacity = "1";
+                clearBtn.style.cursor = "pointer";
+            }
+            if (answerField.value.length >= 8) {
+                answerField.style.fontSize = "35px";
+            }
+            if (answerField.value.length > 20) {
+                warningText.innerHTML = warning;
+            }
+            if (answerField.value.length <= 20) {
+                warningText.innerHTML = "";
+            }
+        }
+   </script>
+</html>
